@@ -41,8 +41,8 @@ function getDateType(dateText, status = "") {
 }
 function getVillaPriceText(dateType) {
   const prices = {
-    平日: "30,000元",
-    旺日: "30,000元",
+    平日: "23,000元",
+    旺日: "25,000元",
     假日: "30,000元",
     連假: "30,000元"
   };
