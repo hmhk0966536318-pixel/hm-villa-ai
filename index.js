@@ -7,6 +7,7 @@ app.use(express.json());
 const CHANNEL_ACCESS_TOKEN = process.env.LINE_CHANNEL_ACCESS_TOKEN;
 const CHANNEL_SECRET = process.env.LINE_CHANNEL_SECRET;
 const AVAILABILITY_API_URL = process.env.AVAILABILITY_API_URL;
+const BOOKING_API_URL = process.env.BOOKING_API_URL;
 
 function checkSignature(req) {
   const signature = req.headers["x-line-signature"];
@@ -66,6 +67,56 @@ async function checkAvailability(userText) {
   } catch (error) {
     return "渼寶查詢房況時遇到一點小狀況🥹 請留下入住日期、人數及需求，小編會協助確認。";
   }
+  function parseBookingInfo(text) {
+  const phoneMatch = text.match(/09\d{8}/);
+  const dateMatch = text.match(/(\d{1,2})[\/月](\d{1,2})/);
+
+  const checkIn = dateMatch
+    ? `${new Date().getFullYear()}/${String(dateMatch[1]).padStart(2, "0")}/${String(dateMatch[2]).padStart(2, "0")}`
+    : "";
+
+  const peopleMatch = text.match(/入住人數[:：]?\s*([^\n]+)/);
+  const roomMatch = text.match(/包棟或單間[:：]?\s*([^\n]+)/);
+  const nameMatch = text.match(/(?:訂房)?姓名[:：]?\s*([^\n]+)/);
+
+  return {
+    checkIn,
+    name: nameMatch ? nameMatch[1].trim() : "",
+    phone: phoneMatch ? phoneMatch[0] : "",
+    people: peopleMatch ? peopleMatch[1].trim() : "",
+    roomType: roomMatch ? roomMatch[1].trim() : "",
+    note: text
+  };
+}
+
+async function createBookingRequest(userText) {
+  const info = parseBookingInfo(userText);
+
+  if (!info.phone || !info.checkIn || !info.name) {
+    return null;
+  }
+
+  try {
+    const res = await fetch(BOOKING_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(info)
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+      return `👧🏻 渼寶已收到您的訂房需求！\n\n🆔 訂單編號：${result.orderId}\n\n📌 小編將盡快為您確認房況、費用及訂金資訊。\n\n⚠️ 此為訂房需求詢問，尚未完成正式訂房。\n訂房需經小編確認房況，並於訂金完成後才算保留成功。\n\n🏡 禾渼會館 期待與您相見！`;
+    }
+
+    return null;
+  } catch (error) {
+    console.error(error);
+    return "⚠️ 訂房需求送出失敗，請稍後再試。";
+  }
+}
 }
 
 async function replyText(userText) {
@@ -74,8 +125,11 @@ async function replyText(userText) {
   const bookingReply = await createBookingRequest(userText);
   if (bookingReply) return bookingReply;
 
-  const availabilityReply = await checkAvailability(userText);
-  if (availabilityReply) return availabilityReply;
+  const bookingReply = await createBookingRequest(userText);
+if (bookingReply) return bookingReply;
+
+const availabilityReply = await checkAvailability(userText);
+if (availabilityReply) return availabilityReply;
 
   if (text.includes("我要訂房") || text.includes("想訂房") || text.includes("訂房資訊") || text.includes("預訂")) {
     return "好的😊 請您先留下以下訂房需求，小編協助確認：\n\n📅 入住日期：\n👨‍👩‍👧‍👦 入住人數：\n🏠 包棟或單間：\n🛏️ 房型需求：\n📞 聯絡電話：\n👤 姓名：\n\n👧🏻 渼寶會將您的需求轉交給禾渼會館小編處理。\n\n📌 小編將依實際房況為您確認是否可預訂、費用及訂金資訊。\n\n⚠️ 此為訂房需求詢問，尚未完成正式訂房。\n訂房需經小編確認房況，並於訂金完成後才算保留成功。\n\n若小編正在整理房務或接待旅客，回覆稍有延遲，敬請見諒😊";
