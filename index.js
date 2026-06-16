@@ -67,6 +67,8 @@ async function checkAvailability(userText) {
   } catch (error) {
     return "渼寶查詢房況時遇到一點小狀況🥹 請留下入住日期、人數及需求，小編會協助確認。";
   }
+}
+
 function parseBookingInfo(text) {
   const phoneMatch = text.match(/09\d{8}/);
   const dateMatch = text.match(/(\d{1,2})[\/月](\d{1,2})/);
