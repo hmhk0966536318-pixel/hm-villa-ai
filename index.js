@@ -39,7 +39,16 @@ function getDateType(dateText, status = "") {
   if (day === 6) return "假日"; // 週六
   return "平日"; // 週日～週四
 }
+function getVillaPriceText(dateType) {
+  const prices = {
+    平日: "30,000元",
+    旺日: "30,000元",
+    假日: "30,000元",
+    連假: "30,000元"
+  };
 
+  return `🏡 包棟參考房價：${prices[dateType] || "30,000元"}`;
+}
 
 async function checkAvailability(userText) {
   const date = normalizeDate(userText);
@@ -97,6 +106,9 @@ ${villaPriceText}
 
   return "渼寶查詢房況時遇到一點小狀況🥹 請留下入住日期、人數及需求，小編會協助確認。";
 }
+}
+
+function parseBookingInfo(text) {
 
 
 
