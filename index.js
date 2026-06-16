@@ -93,7 +93,7 @@ ${villaPriceText}
     }
 
     return `🌾 渼寶幫您查詢 ${date}，目前狀態為：${status}。${note}`;
-  } } catch (error) {
+   } catch (error) {
   console.error("checkAvailability錯誤：", error);
 
   return "渼寶查詢房況時遇到一點小狀況🥹 請留下入住日期、人數及需求，小編會協助確認。";
