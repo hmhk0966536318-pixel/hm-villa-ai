@@ -91,7 +91,6 @@ ${villaPriceText}
 
 如需包棟，請提供入住人數，小編協助報價😊${note}`;
     }
-
     return `🌾 渼寶幫您查詢 ${date}，目前狀態為：${status}。${note}`;
    } catch (error) {
   console.error("checkAvailability錯誤：", error);
