@@ -47,6 +47,7 @@ function getPriceText(dateType) {
 
   return "\n\n🏡 參考房價：\n包棟：30,000元\n201四人房：3,500元\n202二大一小房：2,500元\n203二大二小房：2,900元\n301四人房：4,000元\n302二大二小房：2,900元\n\n📌 實際成交價格與優惠，仍以小編最後確認為主。";
 }
+
 async function checkAvailability(userText) {
   const date = normalizeDate(userText);
   if (!date) return null;
@@ -64,8 +65,8 @@ async function checkAvailability(userText) {
     const status = found["狀態"] || "未標示";
     const note = found["備註"] ? `\n備註：${found["備註"]}` : "";
 
-  if (status.includes("可預訂")) {
-  return `🌾 渼寶幫您查詢到 ${date} 目前可預訂喔！
+    if (status.includes("可預訂")) {
+      return `🌾 渼寶幫您查詢到 ${date} 目前可預訂喔！
 
 🏡 包棟參考房價：30,000元
 
@@ -74,25 +75,33 @@ async function checkAvailability(userText) {
 📌 實際成交價格與優惠方案，仍以小編最後確認為主。
 
 若需保留，請留下入住人數及聯絡方式，小編協助您確認訂房😊${note}`;
-}
+    }
 
-if (status.includes("已訂")) {
+    if (status.includes("已訂")) {
+      return `很抱歉，${date} 目前已訂出囉🥹\n\n歡迎提供其他日期，渼寶再幫您查詢。${note}`;
+    }
+
+    if (status.includes("不可訂") || status.includes("關閉")) {
+      return `很抱歉，${date} 目前暫不開放預訂。\n\n歡迎提供其他日期，小編協助確認😊${note}`;
+    }
 
     if (status.includes("僅接包棟")) {
-  return `🌾 ${date} 目前僅接包棟，不開放單間訂房。
+      return `🌾 ${date} 目前僅接包棟，不開放單間訂房。
 
 🏡 包棟參考房價：30,000元
 
 📌 實際成交價格與優惠方案，仍以小編最後確認為主。
 
 如需包棟，請提供入住人數，小編協助報價😊${note}`;
-}
+    }
 
     return `🌾 渼寶幫您查詢 ${date}，目前狀態為：${status}。${note}`;
   } catch (error) {
     return "渼寶查詢房況時遇到一點小狀況🥹 請留下入住日期、人數及需求，小編會協助確認。";
   }
 }
+
+
 
 function parseBookingInfo(text) {
   const phoneMatch = text.match(/09\d{8}/);
