@@ -64,7 +64,7 @@ async function checkAvailability(userText) {
     const status = found["狀態"] || "未標示";
     const note = found["備註"] ? `\n備註：${found["備註"]}` : "";
 
-   if (status.includes("可預訂")) {
+  if (status.includes("可預訂")) {
   return `🌾 渼寶幫您查詢到 ${date} 目前可預訂喔！
 
 🏡 包棟參考房價：30,000元
@@ -74,14 +74,9 @@ async function checkAvailability(userText) {
 📌 實際成交價格與優惠方案，仍以小編最後確認為主。
 
 若需保留，請留下入住人數及聯絡方式，小編協助您確認訂房😊${note}`;
+}
 
-    if (status.includes("已訂")) {
-      return `很抱歉，${date} 目前已訂出囉🥹\n\n歡迎提供其他日期，渼寶再幫您查詢。${note}`;
-    }
-
-    if (status.includes("不可訂") || status.includes("關閉")) {
-      return `很抱歉，${date} 目前暫不開放預訂。\n\n歡迎提供其他日期，小編協助確認😊${note}`;
-    }
+if (status.includes("已訂")) {
 
     if (status.includes("僅接包棟")) {
   return `🌾 ${date} 目前僅接包棟，不開放單間訂房。
