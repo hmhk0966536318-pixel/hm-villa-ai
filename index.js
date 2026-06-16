@@ -125,10 +125,7 @@ async function replyText(userText) {
   const bookingReply = await createBookingRequest(userText);
   if (bookingReply) return bookingReply;
 
-  const bookingReply = await createBookingRequest(userText);
-if (bookingReply) return bookingReply;
-
-const availabilityReply = await checkAvailability(userText);
+ const availabilityReply = await checkAvailability(userText);
 if (availabilityReply) return availabilityReply;
 
   if (text.includes("我要訂房") || text.includes("想訂房") || text.includes("訂房資訊") || text.includes("預訂")) {
