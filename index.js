@@ -102,7 +102,6 @@ async function checkAvailability(userText) {
 }
 
 
-
 function parseBookingInfo(text) {
   const phoneMatch = text.match(/09\d{8}/);
   const dateMatch = text.match(/(\d{1,2})[\/月](\d{1,2})/);
