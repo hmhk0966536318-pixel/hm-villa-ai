@@ -40,13 +40,6 @@ function getDateType(dateText, status = "") {
   return "平日"; // 週日～週四
 }
 
-function getPriceText(dateType) {
-  if (dateType === "假日" || dateType === "連假") {
-    return "\n\n🏡 參考房價：\n包棟：30,000元\n\n📌 假日／連假不開放單間訂房，僅接包棟。";
-  }
-
-  return "\n\n🏡 參考房價：\n包棟：30,000元\n201四人房：3,500元\n202二大一小房：2,500元\n203二大二小房：2,900元\n301四人房：4,000元\n302二大二小房：2,900元\n\n📌 實際成交價格與優惠，仍以小編最後確認為主。";
-}
 
 async function checkAvailability(userText) {
   const date = normalizeDate(userText);
