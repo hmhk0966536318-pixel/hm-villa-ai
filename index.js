@@ -8,6 +8,7 @@ const CHANNEL_ACCESS_TOKEN = process.env.LINE_CHANNEL_ACCESS_TOKEN;
 const CHANNEL_SECRET = process.env.LINE_CHANNEL_SECRET;
 const AVAILABILITY_API_URL = process.env.AVAILABILITY_API_URL;
 const BOOKING_API_URL = process.env.BOOKING_API_URL;
+const PRICE_API_URL = process.env.PRICE_API_URL;
 
 function checkSignature(req) {
   const signature = req.headers["x-line-signature"];
@@ -39,15 +40,25 @@ function getDateType(dateText, status = "") {
   if (day === 6) return "假日"; // 週六
   return "平日"; // 週日～週四
 }
-function getVillaPriceText(dateType) {
-  const prices = {
-    平日: "23,000元",
-    旺日: "25,000元",
-    假日: "30,000元",
-    連假: "30,000元"
-  };
+async function getVillaPriceText(dateType) {
+  try {
+    const res = await fetch(PRICE_API_URL);
+    const prices = await res.json();
 
-  return `🏡 包棟參考房價：${prices[dateType] || "30,000元"}`;
+    const villa = prices.find(r => r["房型"] === "包棟");
+
+    if (!villa) {
+      return "🏡 包棟參考房價：請洽小編";
+    }
+
+    const price = villa[dateType];
+
+    return `🏡 包棟參考房價：${price}元`;
+
+  } catch (error) {
+    console.error("房價表讀取失敗：", error);
+    return "🏡 包棟參考房價：請洽小編";
+  }
 }
 
 async function checkAvailability(userText) {
@@ -69,7 +80,7 @@ async function checkAvailability(userText) {
 
     if (status.includes("可預訂")) {
   const dateType = getDateType(date, status);
-  const villaPriceText = getVillaPriceText(dateType);
+  const villaPriceText = await getVillaPriceText(dateType);
 
   return `🌾 渼寶幫您查詢到 ${date} 目前可預訂喔！
 
