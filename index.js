@@ -29,7 +29,24 @@ function normalizeDate(input) {
 
   return `${year}/${month}/${day}`;
 }
+function getDateType(dateText, status = "") {
+  if (status.includes("僅接包棟") || status.includes("連假")) return "假日";
 
+  const date = new Date(dateText);
+  const day = date.getDay();
+
+  if (day === 5) return "旺日"; // 週五
+  if (day === 6) return "假日"; // 週六
+  return "平日"; // 週日～週四
+}
+
+function getPriceText(dateType) {
+  if (dateType === "假日" || dateType === "連假") {
+    return "\n\n🏡 參考房價：\n包棟：30,000元\n\n📌 假日／連假不開放單間訂房，僅接包棟。";
+  }
+
+  return "\n\n🏡 參考房價：\n包棟：30,000元\n201四人房：3,500元\n202二大一小房：2,500元\n203二大二小房：2,900元\n301四人房：4,000元\n302二大二小房：2,900元\n\n📌 實際成交價格與優惠，仍以小編最後確認為主。";
+}
 async function checkAvailability(userText) {
   const date = normalizeDate(userText);
   if (!date) return null;
@@ -47,9 +64,12 @@ async function checkAvailability(userText) {
     const status = found["狀態"] || "未標示";
     const note = found["備註"] ? `\n備註：${found["備註"]}` : "";
 
-    if (status.includes("可預訂")) {
-      return `🌾 渼寶幫您查詢到 ${date} 目前可預訂喔！\n\n若需保留，請留下入住人數及聯絡方式，小編協助您確認訂房😊${note}`;
-    }
+   if (status.includes("可預訂")) {
+  const dateType = getDateType(date, status);
+  const priceText = getPriceText(dateType);
+
+  return `🌾 渼寶幫您查詢到 ${date} 目前可預訂喔！\n\n日期類型：${dateType}${priceText}\n\n若需保留，請留下入住人數及聯絡方式，小編協助您確認訂房😊${note}`;
+}
 
     if (status.includes("已訂")) {
       return `很抱歉，${date} 目前已訂出囉🥹\n\n歡迎提供其他日期，渼寶再幫您查詢。${note}`;
@@ -60,8 +80,14 @@ async function checkAvailability(userText) {
     }
 
     if (status.includes("僅接包棟")) {
-      return `🌾 ${date} 目前僅接包棟，不開放單間訂房。\n\n如需包棟，請提供入住人數，小編協助報價😊${note}`;
-    }
+  return `🌾 ${date} 目前僅接包棟，不開放單間訂房。
+
+🏡 包棟參考房價：30,000元
+
+📌 實際成交價格與優惠方案，仍以小編最後確認為主。
+
+如需包棟，請提供入住人數，小編協助報價😊${note}`;
+}
 
     return `🌾 渼寶幫您查詢 ${date}，目前狀態為：${status}。${note}`;
   } catch (error) {
