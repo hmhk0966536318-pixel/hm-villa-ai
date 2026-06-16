@@ -67,7 +67,7 @@ async function checkAvailability(userText) {
   } catch (error) {
     return "渼寶查詢房況時遇到一點小狀況🥹 請留下入住日期、人數及需求，小編會協助確認。";
   }
-  function parseBookingInfo(text) {
+function parseBookingInfo(text) {
   const phoneMatch = text.match(/09\d{8}/);
   const dateMatch = text.match(/(\d{1,2})[\/月](\d{1,2})/);
 
@@ -81,6 +81,7 @@ async function checkAvailability(userText) {
 
   return {
     checkIn,
+    checkOut: "",
     name: nameMatch ? nameMatch[1].trim() : "",
     phone: phoneMatch ? phoneMatch[0] : "",
     people: peopleMatch ? peopleMatch[1].trim() : "",
@@ -97,7 +98,7 @@ async function createBookingRequest(userText) {
   }
 
   try {
-    const res = await fetch(BOOKING_API_URL, {
+    const res = await fetch(process.env.BOOKING_API_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -116,7 +117,6 @@ async function createBookingRequest(userText) {
     console.error(error);
     return "⚠️ 訂房需求送出失敗，請稍後再試。";
   }
-}
 }
 
 async function replyText(userText) {
