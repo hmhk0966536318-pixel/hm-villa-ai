@@ -6,6 +6,7 @@ app.use(express.json());
 
 const CHANNEL_ACCESS_TOKEN = process.env.LINE_CHANNEL_ACCESS_TOKEN;
 const CHANNEL_SECRET = process.env.LINE_CHANNEL_SECRET;
+const AVAILABILITY_API_URL = process.env.AVAILABILITY_API_URL;
 
 function checkSignature(req) {
   const signature = req.headers["x-line-signature"];
@@ -17,11 +18,64 @@ function checkSignature(req) {
   return hash === signature;
 }
 
-function replyText(userText) {
+function normalizeDate(input) {
+  const match = input.match(/(\d{1,2})[\/月](\d{1,2})/);
+  if (!match) return null;
+
+  const year = new Date().getFullYear();
+  const month = String(match[1]).padStart(2, "0");
+  const day = String(match[2]).padStart(2, "0");
+
+  return `${year}/${month}/${day}`;
+}
+
+async function checkAvailability(userText) {
+  const date = normalizeDate(userText);
+  if (!date) return null;
+
+  try {
+    const res = await fetch(AVAILABILITY_API_URL);
+    const data = await res.json();
+
+    const found = data.find((row) => row["日期"] === date);
+
+    if (!found) {
+      return `🌾 渼寶幫您查詢 ${date}，目前尚未查到房況資料，請留下人數與需求，小編協助確認😊`;
+    }
+
+    const status = found["狀態"] || "未標示";
+    const note = found["備註"] ? `\n備註：${found["備註"]}` : "";
+
+    if (status.includes("可預訂")) {
+      return `🌾 渼寶幫您查詢到 ${date} 目前可預訂喔！\n\n若需保留，請留下入住人數及聯絡方式，小編協助您確認訂房😊${note}`;
+    }
+
+    if (status.includes("已訂")) {
+      return `很抱歉，${date} 目前已訂出囉🥹\n\n歡迎提供其他日期，渼寶再幫您查詢。${note}`;
+    }
+
+    if (status.includes("不可訂") || status.includes("關閉")) {
+      return `很抱歉，${date} 目前暫不開放預訂。\n\n歡迎提供其他日期，小編協助確認😊${note}`;
+    }
+
+    if (status.includes("僅接包棟")) {
+      return `🌾 ${date} 目前僅接包棟，不開放單間訂房。\n\n如需包棟，請提供入住人數，小編協助報價😊${note}`;
+    }
+
+    return `🌾 渼寶幫您查詢 ${date}，目前狀態為：${status}。${note}`;
+  } catch (error) {
+    return "渼寶查詢房況時遇到一點小狀況🥹 請留下入住日期、人數及需求，小編會協助確認。";
+  }
+}
+
+async function replyText(userText) {
   const text = userText.toLowerCase();
 
+  const availabilityReply = await checkAvailability(userText);
+  if (availabilityReply) return availabilityReply;
+
   if (text.includes("空房") || text.includes("還有房")) {
-    return "您好😊 請提供入住日期、入住人數及房型需求，小編協助查詢空房。";
+    return "您好😊 請提供入住日期、入住人數及房型需求，渼寶協助您查詢空房。";
   }
 
   if (text.includes("包棟")) {
@@ -36,7 +90,7 @@ function replyText(userText) {
     return "訂房需支付房費30%作為訂金。匯款完成後請提供匯款帳號後五碼，小編協助確認。";
   }
 
-  if (text.includes("入住") || text.includes("退房")) {
+  if (text.includes("入住") || text.includes("退房") || text.includes("幾點")) {
     return "入住時間為下午15:00～17:00，退房時間為隔日上午11:00前。";
   }
 
@@ -95,7 +149,7 @@ app.post("/webhook", async (req, res) => {
   for (const event of events) {
     if (event.type === "message" && event.message.type === "text") {
       const userText = event.message.text;
-      const reply = replyText(userText);
+      const reply = await replyText(userText);
       await replyMessage(event.replyToken, reply);
     }
   }
