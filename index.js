@@ -1,0 +1,109 @@
+import express from "express";
+import crypto from "crypto";
+
+const app = express();
+app.use(express.json());
+
+const CHANNEL_ACCESS_TOKEN = process.env.LINE_CHANNEL_ACCESS_TOKEN;
+const CHANNEL_SECRET = process.env.LINE_CHANNEL_SECRET;
+
+function checkSignature(req) {
+  const signature = req.headers["x-line-signature"];
+  const body = JSON.stringify(req.body);
+  const hash = crypto
+    .createHmac("SHA256", CHANNEL_SECRET)
+    .update(body)
+    .digest("base64");
+  return hash === signature;
+}
+
+function replyText(userText) {
+  const text = userText.toLowerCase();
+
+  if (text.includes("空房") || text.includes("還有房")) {
+    return "您好😊 請提供入住日期、入住人數及房型需求，小編協助查詢空房。";
+  }
+
+  if (text.includes("包棟")) {
+    return "您好😊 禾渼會館可提供包棟服務，請提供入住日期及人數，小編協助查詢與報價。";
+  }
+
+  if (text.includes("訂房") || text.includes("怎麼訂")) {
+    return "確認房況後，需支付房費30%作為訂金，訂金完成後才算保留成功。";
+  }
+
+  if (text.includes("訂金") || text.includes("匯款")) {
+    return "訂房需支付房費30%作為訂金。匯款完成後請提供匯款帳號後五碼，小編協助確認。";
+  }
+
+  if (text.includes("入住") || text.includes("退房")) {
+    return "入住時間為下午15:00～17:00，退房時間為隔日上午11:00前。";
+  }
+
+  if (text.includes("早餐")) {
+    return "包棟方案含早餐，單間訂房依方案內容為主，訂房時會另外說明。";
+  }
+
+  if (text.includes("浴缸") || text.includes("澡盆") || text.includes("消毒鍋")) {
+    return "禾渼會館房型皆有浴缸，並提供嬰兒澡盆及奶瓶消毒鍋。";
+  }
+
+  if (text.includes("戲水池") || text.includes("玩水")) {
+    return "夏季期間戲水池會開放使用，並設有遮陽設備，實際開放依天候及現場狀況調整。";
+  }
+
+  if (text.includes("寵物") || text.includes("狗") || text.includes("貓")) {
+    return "目前禾渼會館暫不提供寵物入住服務，敬請見諒。";
+  }
+
+  if (text.includes("停車")) {
+    return "禾渼會館有提供停車空間，如有多台車輛，請於入住前告知。";
+  }
+
+  if (text.includes("真人") || text.includes("小編") || text.includes("有人嗎") || text.includes("哈囉") || text.includes("您好")) {
+    return "您好😊 歡迎來到禾渼會館！請留下入住日期、入住人數及需求，小編看到訊息後會盡快為您服務。";
+  }
+
+  return "您好😊 我是禾渼會館渼寶小管家。請留下入住日期、入住人數及想詢問的內容，小編看到後會盡快協助您。";
+}
+
+async function replyMessage(replyToken, message) {
+  await fetch("https://api.line.me/v2/bot/message/reply", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${CHANNEL_ACCESS_TOKEN}`
+    },
+    body: JSON.stringify({
+      replyToken,
+      messages: [{ type: "text", text: message }]
+    })
+  });
+}
+
+app.get("/", (req, res) => {
+  res.send("禾渼會館 渼寶小管家運作中 🌾");
+});
+
+app.post("/webhook", async (req, res) => {
+  if (!checkSignature(req)) {
+    return res.status(401).send("Invalid signature");
+  }
+
+  const events = req.body.events || [];
+
+  for (const event of events) {
+    if (event.type === "message" && event.message.type === "text") {
+      const userText = event.message.text;
+      const reply = replyText(userText);
+      await replyMessage(event.replyToken, reply);
+    }
+  }
+
+  res.sendStatus(200);
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Meibao bot running on port ${PORT}`);
+});
