@@ -295,16 +295,20 @@ if (text.includes("限時")) {
     return "目前唱歌無限時，晚上10點後請降低音量，如被檢舉由旅客承擔。";
   }
 
-if (text.includes("可以烤肉")|) {
+if (text.includes("可以烤肉")) {
     return "可以，無收人頭費與清潔費用完請收拾乾淨，無收拾會扣清潔費，晚上10點後禁止戶外活動。";
   }
 
-if (text.includes("可以外燴")|) {
+if (text.includes("可以外燴")) {
     return "可以，晚上10點後禁止戶外活動。";
   }
 
-if (text.includes("煙火")|) {
+if (text.includes("煙火")) {
     return "可以，放完煙火請集中請收拾乾淨，無收拾會扣清潔費，晚上10點後禁止戶外活動禁放煙火。";
+  }
+
+if (text.includes("抽菸")) {
+    return "戶外可以抽菸，菸蒂請集中，亂丟菸蒂會扣清潔費。";
   }
   
   if (text.includes("真人") || text.includes("小編") || text.includes("有人嗎") || text.includes("哈囉") || text.includes("您好")) {
