@@ -287,7 +287,7 @@ if (text.includes("可以保留房間嗎")) {
     return "訂金完成後才算保留成功。";
   }
 
-if (text.includes("可以唱歌")) {
+if (text.includes("可以唱歌"|| text.includes("唱歌"))) {
     return "可以，原聲原影非伴唱帶畫面。";
   }
 
@@ -299,10 +299,14 @@ if (text.includes("可以烤肉")) {
     return "可以，無收人頭費與清潔費用完請收拾乾淨，無收拾會扣清潔費，晚上10點後禁止戶外活動。";
   }
 
-if (text.includes("可以外燴")) {
+if (text.includes("可以外燴")|| text.includes("外燴")) {
     return "可以，晚上10點後禁止戶外活動。";
   }
 
+if (text.includes("代訂食材")|| text.includes("食材")) {
+    return "可以，請找小編要目錄。";
+  }
+  
 if (text.includes("煙火")) {
     return "可以，放完煙火請集中請收拾乾淨，無收拾會扣清潔費，晚上10點後禁止戶外活動禁放煙火。";
   }
