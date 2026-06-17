@@ -283,12 +283,8 @@ if (text.includes("可以保留房間嗎")) {
     return "訂金完成後才算保留成功。";
   }
 
-if (text.includes("可以唱歌")|| text.includes("唱歌")) {
-    return "可以，原聲原影非伴唱帶畫面。";
-  }
-
-if (text.includes("限時")) {
-    return "目前唱歌無限時，晚上10點後請降低音量，如被檢舉由旅客承擔。";
+if (text.includes("可以唱歌")|| text.includes("唱歌")|| text.includes("限時")) {
+    return "可以，原聲原影非伴唱帶畫面，目前唱歌無限時，晚上10點後請降低音量，如被檢舉由旅客承擔。";
   }
 
 if (text.includes("烤肉")) {
