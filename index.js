@@ -254,13 +254,14 @@ if (text.includes("電梯")) {
     return "有。";
   }
 
-if (text.includes("Wifi")) {
-    return "有。";
-  }
-
-if (text.includes("Wifi密碼")|| text.includes("密碼")) {
-    return "直接連 禾渼館內 無密碼。";
-  }
+if (
+  text.includes("wifi") ||
+  text.includes("網路") ||
+  text.includes("密碼") ||
+  text.includes("無線網路")
+) {
+  return "📶 禾渼會館全館提供免費 Wi-Fi直接連 禾渼館內 無密碼。";
+}
 
   
 if (text.includes("附近有便利商店")|| text.includes("便利商店")|| text.includes("7-11")|| text.includes("全家")) {
@@ -279,9 +280,14 @@ if (text.includes("國旅卡")) {
     return "目前無提供國旅卡服務。";
   }
 
-if (text.includes("一樓房間")) {
-    return "目前一樓無提供房間室內有電梯可到達入住樓層。";
-  }
+if (
+  text.includes("一樓房") ||
+  text.includes("一樓房間") ||
+  text.includes("長輩") ||
+  text.includes("爬樓梯")
+) {
+  return "目前一樓無提供房間，但館內設有電梯，可直達入住樓層😊";
+}
 
   
 if (text.includes("可以保留房間嗎")|| text.includes("保留")) {
