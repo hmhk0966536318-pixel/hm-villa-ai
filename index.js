@@ -213,6 +213,15 @@ if (availabilityReply) return availabilityReply;
     return "禾渼會館房型皆有浴缸，並提供嬰兒澡盆及奶瓶消毒鍋。";
   }
 
+if (text.includes("水質")) {
+    return "目前戲水池都放地下水，如需放自來水加收1,000元。";
+  }
+
+if (text.includes("換水)) {
+    return "目前都是入住當天洗池放新水。";
+  }
+
+  
   if (text.includes("戲水池") || text.includes("玩水")|| text.includes("泳池")) {
     return "夏季期間戲水池會開放使用，並設有遮陽設備，實際開放依天候及現場狀況調整。";
   }
@@ -252,7 +261,10 @@ if (text.includes("一樓有房嗎")) {
 if (text.includes("可以唱歌")) {
     return "可以，原聲原影非伴唱帶畫面。";
   }
-  
+
+if (text.includes("限時")) {
+    return "目前唱歌無限時，晚上10點後請降低音量，如被檢舉由旅客承擔。";
+  }
   
   if (text.includes("真人") || text.includes("小編") || text.includes("有人嗎") || text.includes("哈囉") || text.includes("您好")) {
     return "您好😊 歡迎來到禾渼會館！請留下入住日期、入住人數及需求，小編看到訊息後會盡快為您服務。";
