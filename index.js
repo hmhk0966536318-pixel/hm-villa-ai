@@ -224,7 +224,36 @@ if (availabilityReply) return availabilityReply;
   if (text.includes("停車")) {
     return "禾渼會館有提供停車空間，停自家庭園。";
   }
+  
+if (text.includes("訂金如何支付") || text.includes("帳號")|| text.includes("付款")) {
+    return "中國信託（822）帳號：164540184542。匯款後請提供後五碼。";
+  }
 
+if (text.includes("房間有陽台嗎") || text.includes("陽台")|| text.includes("抽菸")) {
+    return "禾渼會館房型皆設有陽台，菸蒂請集中，室內臥室廁所禁菸。";
+  }
+
+if (text.includes("有哪些親子設施")) {
+    return "戲水池、球池（依房型）、澡盆、消毒鍋等。";
+  }
+  
+if (text.includes("取消訂房")) {
+    return "依交通部觀光署定型化契約辦理。";
+  }
+
+if (text.includes("有電梯")) {
+    return "有。";
+  }
+
+if (text.includes("一樓有房嗎")) {
+    return "一樓無房但民宿內有電梯可以使用到達樓層。";
+  }
+
+if (text.includes("可以唱歌")) {
+    return "可以，原聲原影非伴唱帶畫面。";
+  }
+  
+  
   if (text.includes("真人") || text.includes("小編") || text.includes("有人嗎") || text.includes("哈囉") || text.includes("您好")) {
     return "您好😊 歡迎來到禾渼會館！請留下入住日期、入住人數及需求，小編看到訊息後會盡快為您服務。";
   }
