@@ -198,7 +198,7 @@ if (availabilityReply) return availabilityReply;
   }
 
   if (text.includes("訂金") || text.includes("匯款")) {
-    return "訂房需支付房費30%作為訂金。匯款完成後請提供匯款帳號後五碼，小編協助確認。";
+    return "訂房需支付房費30%作為訂金 822 中信16454-0184542。匯款完成後請提供匯款帳號後五碼，小編協助確認。";
   }
 
   if (text.includes("入住") || text.includes("退房") || text.includes("幾點")) {
@@ -213,16 +213,16 @@ if (availabilityReply) return availabilityReply;
     return "禾渼會館房型皆有浴缸，並提供嬰兒澡盆及奶瓶消毒鍋。";
   }
 
-  if (text.includes("戲水池") || text.includes("玩水")) {
+  if (text.includes("戲水池") || text.includes("玩水"))|| text.includes("泳池")) {
     return "夏季期間戲水池會開放使用，並設有遮陽設備，實際開放依天候及現場狀況調整。";
   }
 
-  if (text.includes("寵物") || text.includes("狗") || text.includes("貓")) {
+  if (text.includes("寵物") || text.includes("狗") || text.includes("貓")|| text.includes("兔")) {
     return "目前禾渼會館暫不提供寵物入住服務，敬請見諒。";
   }
 
   if (text.includes("停車")) {
-    return "禾渼會館有提供停車空間，如有多台車輛，請於入住前告知。";
+    return "禾渼會館有提供停車空間，停自家庭園。";
   }
 
   if (text.includes("真人") || text.includes("小編") || text.includes("有人嗎") || text.includes("哈囉") || text.includes("您好")) {
