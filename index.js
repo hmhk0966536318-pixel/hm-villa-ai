@@ -274,12 +274,12 @@ if (text.includes("國旅卡")) {
     return "目前無提供國旅卡服務。";
   }
 
-if (text.includes("一樓有房間嗎")|| text.includes("一樓房間")) {
+if (text.includes("一樓房間")) {
     return "目前一樓無提供房間室內有電梯可到達入住樓層。";
   }
 
   
-if (text.includes("可以保留房間嗎")) {
+if (text.includes("可以保留房間嗎")|| text.includes("保留")) {
     return "訂金完成後才算保留成功。";
   }
 
