@@ -243,7 +243,7 @@ if (text.includes("房間有陽台嗎") || text.includes("陽台")|| text.includ
   }
 
 if (text.includes("有哪些親子設施")) {
-    return "戲水池、球池（依房型）、澡盆、消毒鍋等。";
+    return "戲水池、球池（依房型）、嚕嚕車、澡盆、消毒鍋等。";
   }
   
 if (text.includes("取消訂房")) {
@@ -254,8 +254,37 @@ if (text.includes("有電梯")) {
     return "有。";
   }
 
-if (text.includes("一樓有房嗎")) {
-    return "一樓無房但民宿內有電梯可以使用到達樓層。";
+if (text.includes("有電梯")) {
+    return "有。";
+  }
+
+if (text.includes("有WiFi嗎")) {
+    return "有。";
+  }
+
+if (text.includes("附近有便利商店")) {
+    return "鄰近皆有生活機能，歡迎詢問。";
+  }
+
+if (text.includes("可以延後退房嗎")|| text.includes("延遲退房")) {
+    return "可以，需加延長費請洽小編。";
+  }
+
+if (text.includes("可以刷卡嗎")) {
+    return "目前無提供刷卡服務。";
+  }
+
+if (text.includes("國旅卡")) {
+    return "目前無提供國旅卡服務。";
+  }
+
+if (text.includes("一樓有房間嗎")) {
+    return "目前一樓無提供房間室內有電梯可到達入住樓層。";
+  }
+
+  
+if (text.includes("可以保留房間嗎")) {
+    return "訂金完成後才算保留成功。";
   }
 
 if (text.includes("可以唱歌")) {
@@ -264,6 +293,18 @@ if (text.includes("可以唱歌")) {
 
 if (text.includes("限時")) {
     return "目前唱歌無限時，晚上10點後請降低音量，如被檢舉由旅客承擔。";
+  }
+
+if (text.includes("可以烤肉")|) {
+    return "可以，無收人頭費與清潔費用完請收拾乾淨，無收拾會扣清潔費，晚上10點後禁止戶外活動。";
+  }
+
+if (text.includes("可以外燴")|) {
+    return "可以，晚上10點後禁止戶外活動。";
+  }
+
+if (text.includes("煙火")|) {
+    return "可以，放完煙火請集中請收拾乾淨，無收拾會扣清潔費，晚上10點後禁止戶外活動禁放煙火。";
   }
   
   if (text.includes("真人") || text.includes("小編") || text.includes("有人嗎") || text.includes("哈囉") || text.includes("您好")) {
