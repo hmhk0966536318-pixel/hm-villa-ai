@@ -274,7 +274,7 @@ if (text.includes("國旅卡")) {
     return "目前無提供國旅卡服務。";
   }
 
-if (text.includes("一樓有房間嗎")) {
+if (text.includes("一樓有房間嗎")|| text.includes("一樓房間")) {
     return "目前一樓無提供房間室內有電梯可到達入住樓層。";
   }
 
@@ -298,7 +298,9 @@ if (text.includes("可以外燴")|| text.includes("外燴")|| text.includes("代
 if (text.includes("代訂食材")|| text.includes("食材")) {
     return "可以，請找小編要目錄。";
   }
-  
+if (text.includes("房型")) {
+    return "禾渼共五間房，四人-2間，兩大一小-1間，兩大兩小-2間，可入住10大9小或14大5小共計19位入住。";
+  }
   
 if (text.includes("煙火")) {
     return "可以，放完煙火請集中請收拾乾淨，無收拾會扣清潔費，晚上10點後禁止戶外活動禁放煙火。";
