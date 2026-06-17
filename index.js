@@ -217,7 +217,7 @@ if (text.includes("水質")) {
     return "目前戲水池都放地下水，如需放自來水加收1,000元。";
   }
 
-if (text.includes("換水)) {
+if (text.includes("換水")) {
     return "目前都是入住當天洗池放新水。";
   }
 
