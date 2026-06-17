@@ -291,13 +291,14 @@ if (text.includes("烤肉")) {
     return "可以，無收人頭費與清潔費用完請收拾乾淨，無收拾會扣清潔費，晚上10點後禁止戶外活動。";
   }
 
-if (text.includes("可以外燴")|| text.includes("外燴")) {
-    return "可以，晚上10點後禁止戶外活動。";
+if (text.includes("可以外燴")|| text.includes("外燴")|| text.includes("代烤")) {
+    return "可以自行找廠商或請詢問小編推薦廠商，晚上10點後禁止戶外活動。";
   }
 
 if (text.includes("代訂食材")|| text.includes("食材")) {
     return "可以，請找小編要目錄。";
   }
+  
   
 if (text.includes("煙火")) {
     return "可以，放完煙火請集中請收拾乾淨，無收拾會扣清潔費，晚上10點後禁止戶外活動禁放煙火。";
