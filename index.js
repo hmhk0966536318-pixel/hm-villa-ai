@@ -254,10 +254,15 @@ if (text.includes("電梯")) {
     return "有。";
   }
 
-if (text.includes("WiFi")) {
+if (text.includes("Wifi")) {
     return "有。";
   }
 
+if (text.includes("Wifi密碼")|| text.includes("密碼")) {
+    return "直接連 禾渼館內 無密碼。";
+  }
+
+  
 if (text.includes("附近有便利商店")|| text.includes("便利商店")|| text.includes("7-11")|| text.includes("全家")) {
     return "鄰近皆有生活機能，歡迎詢問。";
   }
