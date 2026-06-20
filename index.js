@@ -72,7 +72,7 @@ async function checkAvailability(userText) {
     const found = data.find((row) => row["日期"] === date);
 
     if (!found) {
-      return `🌾 渼寶幫您查詢 ${date}，目前尚未查到房況資料，請留下人數與需求，小編協助確認😊`;
+     return null;
     }
 
     const status = found["狀態"] || "未標示";
@@ -361,7 +361,7 @@ if (text.includes("抽菸")) {
     return "您好😊 小編在線上，請直接留下您的問題即可。";
   }
 
-  return "🌾 渼寶收到囉！請留下入住日期、人數或想詢問的內容，小編會盡快協助您😊。";
+ return "🌾 渼寶收到囉！請留下入住日期、人數或想詢問的內容，小編會盡快協助您😊。";
 }
 
 async function replyMessage(replyToken, message) {
