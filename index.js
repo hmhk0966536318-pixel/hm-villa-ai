@@ -142,6 +142,32 @@ function parseBookingInfo(text) {
   };
 }
 
+function isSoftAcknowledgement(text) {
+  const softAcknowledgements = [
+    "謝謝",
+    "感謝",
+    "好的",
+    "好喔",
+    "好哦",
+    "好唷",
+    "可以",
+    "沒問題",
+    "等一下",
+    "等等",
+    "稍等",
+    "稍後",
+    "晚點",
+    "討論一下",
+    "確認一下",
+    "再回覆",
+    "再跟你說",
+    "再跟您說",
+    "12月見"
+  ];
+
+  return softAcknowledgements.some((keyword) => text.includes(keyword));
+}
+
 async function createBookingRequest(userText) {
   const info = parseBookingInfo(userText);
 
@@ -321,6 +347,10 @@ if (text.includes("抽菸")) {
     return "戶外可以抽菸，菸蒂請集中，亂丟菸蒂會扣清潔費。";
   }
 
+ if (isSoftAcknowledgement(text)) {
+    return "好的，沒問題～您方便時再回覆我們就可以 😊";
+  }
+
   if (
     text === "真人" ||
     text === "小編" ||
@@ -330,6 +360,7 @@ if (text.includes("抽菸")) {
   }
 
   return "🌾 渼寶收到囉！請留下入住日期、人數或想詢問的內容，小編會盡快協助您😊。";
+  return "🌾 您好，訊息已收到～\n如果方便的話，可以留下入住日期、人數，或想詢問的問題；不急，方便時再回覆即可，我們會盡快協助您 😊";
 }
 
 async function replyMessage(replyToken, message) {
@@ -354,21 +385,3 @@ app.post("/webhook", async (req, res) => {
   if (!checkSignature(req)) {
     return res.status(401).send("Invalid signature");
   }
-
-  const events = req.body.events || [];
-
-  for (const event of events) {
-    if (event.type === "message" && event.message.type === "text") {
-      const userText = event.message.text;
-      const reply = await replyText(userText);
-      await replyMessage(event.replyToken, reply);
-    }
-  }
-
-  res.sendStatus(200);
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Meibao bot running on port ${PORT}`);
-});
