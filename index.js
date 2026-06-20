@@ -174,6 +174,13 @@ async function createBookingRequest(userText) {
 async function replyText(userText) {
   const text = userText.toLowerCase();
 
+  const silentWords = ["好的", "好喔", "好", "謝謝", "感謝", "收到", "了解", "等一下", "等等", "可以", "ok", "okay"];
+
+  if (silentWords.includes(text.trim())) {
+    return null;
+  }
+
+  
   const bookingReply = await createBookingRequest(userText);
   if (bookingReply) return bookingReply;
 
@@ -357,13 +364,16 @@ app.post("/webhook", async (req, res) => {
 
   const events = req.body.events || [];
 
-  for (const event of events) {
-    if (event.type === "message" && event.message.type === "text") {
-      const userText = event.message.text;
-      const reply = await replyText(userText);
+ for (const event of events) {
+  if (event.type === "message" && event.message.type === "text") {
+    const userText = event.message.text;
+    const reply = await replyText(userText);
+
+    if (reply) {
       await replyMessage(event.replyToken, reply);
     }
   }
+}
 
   res.sendStatus(200);
 });
