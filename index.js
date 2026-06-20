@@ -174,8 +174,33 @@ async function createBookingRequest(userText) {
 async function replyText(userText) {
   const text = userText.toLowerCase();
 
-  const silentWords = ["好的", "好喔", "好", "謝謝", "感謝", "收到", "了解", "等一下", "等等", "可以", "ok", "okay"];
+   const silentWords = [
+    "好",
+    "好的",
+    "好的唷",
+    "好喔",
+    "好哦",
+    "ok",
+    "okay",
+    "收到",
+    "了解",
+    "等等",
+    "等一下",
+    "討論",
+    "討論一下",
+    "我再想想",
+    "我再看看",
+    "謝謝",
+    "謝謝你",
+    "謝謝您",
+    "感謝",
+    "感謝你",
+    "感謝您"
+  ];
 
+  if (silentWords.some(word => text.trim().includes(word))) {
+    return null;
+  }
   if (silentWords.includes(text.trim())) {
     return null;
   }
