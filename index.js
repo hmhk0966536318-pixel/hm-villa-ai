@@ -1,5 +1,6 @@
 import express from "express";
 import crypto from "crypto";
+import OpenAI from "openai";
 
 const app = express();
 app.use(express.json());
@@ -8,6 +9,8 @@ const CHANNEL_ACCESS_TOKEN = process.env.LINE_CHANNEL_ACCESS_TOKEN;
 const CHANNEL_SECRET = process.env.LINE_CHANNEL_SECRET;
 const AVAILABILITY_API_URL = process.env.AVAILABILITY_API_URL;
 const BOOKING_API_URL = process.env.BOOKING_API_URL;
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 const PRICE_API_URL = process.env.PRICE_API_URL;
 
 function checkSignature(req) {
@@ -170,6 +173,33 @@ async function createBookingRequest(userText) {
     return "⚠️ 訂房需求送出失敗，請稍後再試。";
   }
 }
+
+async function askOpenAI(userText) {
+  try {
+    if (!OPENAI_API_KEY) return null;
+
+    const response = await openai.responses.create({
+      model: "gpt-4.1-mini",
+      input: [
+        {
+          role: "system",
+          content:
+            "你是禾渼會館的LINE小管家渼寶。請用繁體中文、親切自然、簡短回覆客人。不要主動保證房況，不要直接成立訂房，不要亂報價格。若客人詢問房況、日期、訂金、訂房，請提醒留下入住日期、人數與需求，並說小編會確認。"
+        },
+        {
+          role: "user",
+          content: userText
+        }
+      ]
+    });
+
+    return response.output_text || null;
+  } catch (error) {
+    console.error("OpenAI 回覆失敗：", error);
+    return null;
+  }
+}
+
 
 async function replyText(userText) {
   const text = userText.toLowerCase();
@@ -361,7 +391,10 @@ if (text.includes("抽菸")) {
     return "您好😊 小編在線上，請直接留下您的問題即可。";
   }
 
- return "🌾 渼寶收到囉！請留下入住日期、人數或想詢問的內容，小編會盡快協助您😊。";
+ const aiReply = await askOpenAI(userText);
+if (aiReply) return aiReply;
+
+return "🌾 渼寶收到囉！小編看到後會盡快協助您😊";
 }
 
 async function replyMessage(replyToken, message) {
