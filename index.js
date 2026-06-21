@@ -176,7 +176,10 @@ async function createBookingRequest(userText) {
 
 async function askOpenAI(userText) {
   try {
-    if (!OPENAI_API_KEY) return null;
+    if (!OPENAI_if (!OPENAI_API_KEY) {
+  console.error("OPENAI_API_KEY 沒有讀到");
+  return null;
+}API_KEY) return null;
 
     const response = await openai.responses.create({
       model: "gpt-4.1-mini",
@@ -193,7 +196,8 @@ async function askOpenAI(userText) {
       ]
     });
 
-    return response.output_text || null;
+    console.log("OpenAI回覆：", response.output_text);
+return response.output_text || null;
   } catch (error) {
     console.error("OpenAI 回覆失敗：", error);
     return null;
