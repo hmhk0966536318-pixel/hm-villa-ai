@@ -184,10 +184,9 @@ async function askOpenAI(userText) {
     const response = await openai.responses.create({
       model: "gpt-4.1-mini",
       input: [
-        {
-         {
-  role: "system",
-  content: `
+  {
+    role: "system",
+    content: `
 你是禾渼會館的LINE小管家渼寶。
 
 請使用繁體中文回答。
@@ -217,13 +216,12 @@ async function askOpenAI(userText) {
 8. 不亂報價格。
 9. 若不知道答案，請請客人留下資訊由小編協助。
 `
-}
-        {
-          role: "user",
-          content: userText
-        }
-      ]
-    });
+  },
+  {
+    role: "user",
+    content: userText
+  }
+]
 
     console.log("OpenAI回覆：", response.output_text);
     return response.output_text || null;
