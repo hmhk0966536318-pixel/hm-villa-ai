@@ -236,37 +236,40 @@ async function replyText(userText) {
   const text = userText.toLowerCase();
 
    const silentWords = [
-    "好",
-    "好的",
-    "好的唷",
-    "好喔",
-    "好哦",
-    "ok",
-    "okay",
-    "收到",
-    "了解",
-    "等等",
-    "等一下",
-    "討論",
-    "討論一下",
-    "我再想想",
-    "我再看看",
-    "謝謝",
-    "謝謝你",
-    "謝謝您",
-    "感謝",
-    "感謝你",
-    "感謝您"
-  ];
+  "好",
+  "好的",
+  "好的唷",
+  "好喔",
+  "好哦",
+  "ok",
+  "okay",
+  "收到",
+  "了解",
+  "等等",
+  "等一下",
+  "討論",
+  "討論一下",
+  "我再想想",
+  "我再看看",
+  "謝謝",
+  "謝謝你",
+  "謝謝您",
+  "感謝",
+  "感謝你",
+  "感謝您",
+  "哈哈",
+  "哈哈哈",
+  "不會",
+  "不客氣"
+];
 
-  if (silentWords.includes(text.trim())) {
+if (silentWords.includes(text.trim())) {
   return null;
 }
-  if (silentWords.includes(text.trim())) {
+
+if (text.trim().length <= 4) {
   return null;
 }
-
-  
   const bookingReply = await createBookingRequest(userText);
   if (bookingReply) return bookingReply;
 
