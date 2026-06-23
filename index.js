@@ -395,7 +395,9 @@ if (text.includes("抽菸")) {
     return "您好😊 小編在線上，請直接留下您的問題即可。";
   }
 
- const aiReply = await askOpenAI(userText);
+ console.log("準備送OpenAI:", userText);
+
+const aiReply = await askOpenAI(userText);
 if (aiReply) return aiReply;
 
 return "🌾 渼寶收到囉！小編看到後會盡快協助您😊";
