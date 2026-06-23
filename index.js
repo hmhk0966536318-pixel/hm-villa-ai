@@ -274,12 +274,11 @@ if (text.trim().length <= 4) {
   const bookingReply = await createBookingRequest(userText);
   if (bookingReply) return bookingReply;
 
- const availabilityReply = await checkAvailability(userText);
-if (availabilityReply) return availabilityReply;
+const hasDateRange = /(\d{1,2})[\/月](\d{1,2})\s*[-～~到至]\s*(\d{1,2})?[\/月]?(\d{1,2})/.test(userText);
 
-  if (text.includes("我要訂房") || text.includes("想訂房") || text.includes("訂房資訊") || text.includes("預訂")) {
-    return "好的😊 請您先留下以下訂房需求，小編協助確認：\n\n📅 入住日期：\n👨‍👩‍👧‍👦 入住人數：\n🏠 包棟或單間：\n🛏️ 房型需求：\n📞 聯絡電話：\n👤 姓名：\n\n👧🏻 渼寶會將您的需求轉交給禾渼會館小編處理。\n\n📌 小編將依實際房況為您確認是否可預訂、費用及訂金資訊。\n\n⚠️ 此為訂房需求詢問，尚未完成正式訂房。\n訂房需經小編確認房況，並於訂金完成後才算保留成功。\n\n若小編正在整理房務或接待旅客，回覆稍有延遲，敬請見諒😊";
-  }
+if (hasDateRange) {
+  return "🌾 渼寶收到您的日期區間查詢囉！\n\n連續住宿需確認整段日期房況，為避免系統誤判，小編會親自幫您確認是否可預訂😊";
+}
 
   
   if (text.includes("空房") || text.includes("還有房")) {
