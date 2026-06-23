@@ -198,10 +198,10 @@ async function askOpenAI(userText) {
 
     console.log("OpenAI回覆：", response.output_text);
 return response.output_text || null;
-  } catch (error) {
-    console.error("OpenAI 回覆失敗：", error);
-    return null;
-  }
+ catch (error) {
+  console.error("OpenAI 回覆失敗：", error);
+  return "OpenAI錯誤：" + error.message;
+}
 }
 
 
