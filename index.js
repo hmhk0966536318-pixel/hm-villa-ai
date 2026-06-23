@@ -232,12 +232,12 @@ async function replyText(userText) {
     "感謝您"
   ];
 
-  if (silentWords.some(word => text.trim().includes(word))) {
-    return null;
-  }
   if (silentWords.includes(text.trim())) {
-    return null;
-  }
+  return null;
+}
+  if (silentWords.includes(text.trim())) {
+  return null;
+}
 
   
   const bookingReply = await createBookingRequest(userText);
