@@ -280,6 +280,9 @@ if (!hasDate && text.trim().length <= 4) {
   const bookingReply = await createBookingRequest(userText);
   if (bookingReply) return bookingReply;
 
+  const availabilityReply = await checkAvailability(userText);
+if (availabilityReply) return availabilityReply;
+
 const hasDateRange = /(\d{1,2})[\/月](\d{1,2})\s*[-～~到至]\s*(\d{1,2})?[\/月]?(\d{1,2})/.test(userText);
 
 if (hasDateRange) {
@@ -291,9 +294,13 @@ if (hasDateRange) {
     return "您好😊 請提供入住日期、入住人數及房型需求，渼寶協助您查詢空房。";
   }
 
-  if (text.includes("包棟")) {
-    return "您好😊 禾渼會館可提供包棟服務，請提供入住日期及人數，小編協助查詢與報價。";
-  }
+ if (
+  text === "包棟" ||
+  text === "包棟價格" ||
+  text === "包棟費用"
+) {
+  return "您好😊 禾渼會館可提供包棟服務，請提供入住日期及人數，小編協助查詢與報價。";
+}
 
   if (text.includes("訂房") || text.includes("怎麼訂")) {
     return "確認房況後，需支付房費30%作為訂金，訂金完成後才算保留成功。";
