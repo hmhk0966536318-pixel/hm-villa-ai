@@ -75,8 +75,9 @@ async function checkAvailability(userText) {
     const found = data.find((row) => row["日期"] === date);
 
     if (!found) {
-     return null;
-    }
+  return `🌾 渼寶幫您收到 ${date} 的查詢囉！
+目前系統尚未查到這天房況，請留下入住人數，小編協助確認😊`;
+}
 
     const status = found["狀態"] || "未標示";
     const note = found["備註"] ? `\n備註：${found["備註"]}` : "";
