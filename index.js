@@ -288,7 +288,7 @@ if (text.includes("換水")) {
   }
 
   
-  if (text.includes("戲水池") || text.includes("玩水")|| text.includes("泳池")) {
+  if (text.includes("戲水池") || text.includes("玩水")|| text.includes("泳池")|| text.includes("水池")) {
     return "夏季期間戲水池會開放使用，並設有遮陽設備，實際開放依天候及現場狀況調整。";
   }
 
