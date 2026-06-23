@@ -397,8 +397,6 @@ if (text.includes("抽菸")) {
 
  console.log("準備送OpenAI:", userText);
 
-console.log("準備送OpenAI:", userText);
-
 const aiReply = await askOpenAI(userText);
 
 console.log("OpenAI結果:", aiReply);
@@ -406,8 +404,10 @@ console.log("OpenAI結果:", aiReply);
 if (aiReply) return aiReply;
 
 return "🌾 渼寶收到囉！小編看到後會盡快協助您😊";
+}
 
 async function replyMessage(replyToken, message) {
+
   await fetch("https://api.line.me/v2/bot/message/reply", {
     method: "POST",
     headers: {
