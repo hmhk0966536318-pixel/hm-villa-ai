@@ -268,7 +268,13 @@ if (silentWords.includes(text.trim())) {
   return null;
 }
 
-if (text.trim().length <= 4) {
+const hasDate = /(\d{1,2})[\/月](\d{1,2})/.test(userText);
+
+if (silentWords.includes(text.trim())) {
+  return null;
+}
+
+if (!hasDate && text.trim().length <= 4) {
   return null;
 }
   const bookingReply = await createBookingRequest(userText);
