@@ -218,7 +218,6 @@ async function askOpenAI(userText) {
 9. 若不知道答案，請請客人留下資訊由小編協助。
 `
 }
-        },
         {
           role: "user",
           content: userText
