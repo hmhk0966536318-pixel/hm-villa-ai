@@ -84,7 +84,7 @@ async function checkAvailability(userText) {
     const note = found["備註"] ? `\n備註：${found["備註"]}` : "";
 
     if (status.includes("可預訂")) {
-  const dateType = getDateType(date, status);
+  const dateType = getDateType(date, `${status} ${note}`);
   const villaPriceText = await getVillaPriceText(dateType);
 
   return `🌾 渼寶幫您查詢到 ${date} 目前可預訂喔！
