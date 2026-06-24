@@ -107,15 +107,19 @@ ${villaPriceText}
       return `很抱歉，${date} 目前暫不開放預訂。\n\n歡迎提供其他日期，小編協助確認😊${note}`;
     }
 
-    if (status.includes("僅接包棟")) {
-      return `🌾 ${date} 目前僅接包棟，不開放單間訂房。
+   if (status.includes("僅接包棟")) {
+  const dateType = getDateType(date, `${status} ${found["備註"] || ""}`);
+  const villaPriceText = await getVillaPriceText(dateType);
 
-🏡 包棟參考房價：30,000元
+  return `🌾 ${date} 目前僅接包棟，不開放單間訂房。
+
+日期類型：${dateType}
+${villaPriceText}
 
 📌 實際成交價格與優惠方案，仍以小編最後確認為主。
 
 如需包棟，請提供入住人數，小編協助報價😊${note}`;
-    }
+}
     return `🌾 渼寶幫您查詢 ${date}，目前狀態為：${status}。${note}`;
    } catch (error) {
   console.error("checkAvailability錯誤：", error);
