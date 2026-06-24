@@ -34,14 +34,15 @@ function normalizeDate(input) {
   return `${year}/${month}/${day}`;
 }
 function getDateType(dateText, status = "") {
-  if (status.includes("僅接包棟") || status.includes("連假")) return "假日";
+  if (status.includes("連假")) return "連假";
+  if (status.includes("僅接包棟")) return "假日";
 
   const date = new Date(dateText);
   const day = date.getDay();
 
-  if (day === 5) return "旺日"; // 週五
-  if (day === 6) return "假日"; // 週六
-  return "平日"; // 週日～週四
+  if (day === 5) return "旺日";
+  if (day === 6) return "假日";
+  return "平日";
 }
 async function getVillaPriceText(dateType) {
   try {
