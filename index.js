@@ -108,17 +108,18 @@ ${villaPriceText}
     }
 
    if (status.includes("僅接包棟")) {
-  const dateType = getDateType(date, `${status} ${found["備註"] || ""}`);
+  const rawNote = found["備註"] || "";
+  const dateType = getDateType(date, `${status} ${rawNote}`);
   const villaPriceText = await getVillaPriceText(dateType);
 
   return `🌾 ${date} 目前僅接包棟，不開放單間訂房。
 
+狀態：${status}
+備註：${rawNote}
 日期類型：${dateType}
 ${villaPriceText}
 
-📌 實際成交價格與優惠方案，仍以小編最後確認為主。
-
-如需包棟，請提供入住人數，小編協助報價😊${note}`;
+📌 實際成交價格與優惠方案，仍以小編最後確認為主。`;
 }
     return `🌾 渼寶幫您查詢 ${date}，目前狀態為：${status}。${note}`;
    } catch (error) {
