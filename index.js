@@ -277,9 +277,8 @@ if (silentWords.includes(text.trim())) {
 if (!hasDate && text.trim().length <= 4) {
   return null;
 }
-  
 
-  const availabilityReply = await checkAvailability(userText);
+const availabilityReply = await checkAvailability(userText);
 if (availabilityReply) return availabilityReply;
 
 const hasDateRange = /(\d{1,2})[\/月](\d{1,2})\s*[-～~到至]\s*(\d{1,2})?[\/月]?(\d{1,2})/.test(userText);
