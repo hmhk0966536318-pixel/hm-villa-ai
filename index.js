@@ -277,8 +277,7 @@ if (silentWords.includes(text.trim())) {
 if (!hasDate && text.trim().length <= 4) {
   return null;
 }
-  const availabilityReply = await checkAvailability(userText);
-if (availabilityReply) return availabilityReply;
+  
 
   const availabilityReply = await checkAvailability(userText);
 if (availabilityReply) return availabilityReply;
